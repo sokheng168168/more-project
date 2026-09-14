@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styleproject.css">
+</head>
+<body>
+    <header>
+        <h2>Wellcome!</h2>
+        <p>Hello! can you buy all the Heng Shoes Sport to this here.</p>
+        <div class="cart-icon" onClick="TotalGoods()">🛒
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+    <MAin class="mainbox">
+        <div class="goods-nike card">
+            <h3 style="color: rgb(156, 217, 237);">NIKE</h3>
+            <button onclick="TotalNow(1,'NIKE','45')">Cart</button> 
+            
+            <!-- (in method we add id, name , price it output when we onclick product) -->
+
+             <!--1 it's ID of product, it not number of product-->
+         </div>
+
+        <div class="goods-puma card">
+            <h3 style="color: Red;">PUMA</h3>
+            <button onclick="TotalNow(2,'PUMA','42')">Cart</button>
+        </div>
+
+
+        <div class="goods-adidas card">
+            <h3 style="color: rgb(54, 53, 52);">ADIDAS</h3>
+            <button onclick="TotalNow(3,'ADIDAS','40')">cart</button>
+        </div>
+    </MAin>
+
+    <div>
+        <div class="cartCount" id="cartCount">
+            <h4>YOUR CART</h4>
+            <ul id="intoCart"></ul>
+            <h2 style="position: absolute; bottom:60px;">Total:$<span id="Total">0</span></h2>
+            <button class="TotalNow">Total now</button>
+        </div>
+    </div>
+
+    
+    <script>
+        function TotalGoods(){
+            let cart= document.getElementById("cartCount");
+            cart.style.display = cart.style.display === "block" ? "none" : "block";
+        }
+
+        let cartCount = [];
+        function TotalNow(id, name, price){
+            let item = cartCount.find( p=> p.id == id);
+
+            // in let we call cartCount cuz cartCount is name box when we click UL and LI
+
+            if(item) {
+                item.qty++;
+            }else{
+                cartCount.push({
+                    id: id,
+                    name: name,
+                    price:price,
+                    qty:1,
+                });
+            }
+        renderCart()
+        }
+        // const intoCart =document.getElementById("intoCart");
+        function renderCart(){
+            let Total = 0;
+            let intoCart = document.getElementById("intoCart")
+            intoCart.innerHTML="";
+
+            cartCount.forEach(item=> {
+                Total += item.qty * item.price;
+
+                let li = document.createElement("li");
+                li.innerHTML=`
+                <strong>${item.name}</strong><br>
+                $${item.price}
+                <br><br>
+
+                <div class="cart-action">
+                    <div class="btn-layout">
+                        <button onclick="decreaseQty(${item.id})">-</button>
+                        ${item.qty}
+                        <button onclick = "increaseQty(${item.id})">+</button>
+                    </div>
+                    <button onClick="removeItem(${item.id})">Remove</button>
+                </div>
+                `;
+                intoCart.appendChild(li); 
+            });
+            document.getElementById("total").innerText="Total";
+        }
+        renderCart();
+
+    </script>
+
+</body>
